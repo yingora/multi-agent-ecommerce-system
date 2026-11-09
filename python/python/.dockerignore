@@ -1,0 +1,14 @@
+# Allow-list the application context. Never send local envs, keys, tests or caches.
+**
+!main.py
+!requirements.lock.txt
+!agents/
+!agents/*.py
+!config/
+!config/*.py
+!models/
+!models/*.py
+!orchestrator/
+!orchestrator/*.py
+!services/
+!services/*.py
