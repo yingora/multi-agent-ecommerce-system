@@ -1,0 +1,36 @@
+# Local development only. Default API uses synthetic offline responses.
+services:
+  api:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      ECOM_LLM_MODE: offline
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+
+  # Optional development helpers: not wired to the recommendation API.
+  redis:
+    profiles: [storage]
+    image: redis:7.4-alpine
+    volumes:
+      - redis_data:/data
+    command: [redis-server, --appendonly, "yes"]
+
+  mysql:
+    profiles: [storage]
+    image: mysql:8.0
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: ecommerce
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+# Milvus intentionally omitted from the runnable stack: retrieval is unimplemented,
+# and the original service configuration has not been validated.
+volumes:
+  redis_data:
+  mysql_data:

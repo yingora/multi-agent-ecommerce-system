@@ -1,0 +1,2 @@
+# Runtime-only compatibility entry point. Use uv sync --frozen for development.
+-r requirements.lock.txt
